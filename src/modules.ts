@@ -1,9 +1,19 @@
 export enum ROLE {
-  ADMIN = "admin",
-  USER = "user",
+  ADMIN = "ADMIN",
+  USER = "USER",
 }
 
 export enum STATUS {
-    ACTIVE='active',
-    INACTIVE='inactive'
+    ACTIVE='ACTIVE',
+    INACTIVE='INACTIVE'
+}
+
+export interface NewUser{
+  firstName: string;
+  LastName: string;
+  contactNumber: string;
+  email:string;
+  password: string;
+  status: STATUS;
+  role: ROLE
 }

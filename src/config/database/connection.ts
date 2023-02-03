@@ -1,7 +1,7 @@
 import mysql from 'mysql2';
 require('dotenv').config()
 import { DataSource } from 'typeorm';
-import { User } from './Entities/User';
+import { UserSchema } from './index';
 
 export const AppDataSource = new DataSource({
     type: 'mysql',
@@ -10,10 +10,10 @@ export const AppDataSource = new DataSource({
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
     port: parseInt(process.env.DB_PORT!) ,
-    synchronize: true,
+    synchronize: false,
     logging: true,
     entities: [
-      User
+      UserSchema
     ],
   });
 
@@ -21,7 +21,6 @@ let dataSource: DataSource;
 
 export const InitMysqlDb = async () => {
     if (!dataSource) {
-      
       dataSource = await AppDataSource.initialize();
     }
   };
