@@ -10,7 +10,7 @@ export enum STATUS {
 
 export interface NewUser{
   firstName: string;
-  LastName: string;
+  lastName: string;
   contactNumber: string;
   email:string;
   password: string;
