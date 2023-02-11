@@ -1,6 +1,8 @@
 import mysql from 'mysql2';
 require('dotenv').config()
 import { DataSource } from 'typeorm';
+import { MYSQL_SERVICE } from '../../constants/serviceNameConstants';
+import { Logger } from '../../utils/logger/logger';
 import { UserSchema } from './index';
 
 export const AppDataSource = new DataSource({
@@ -20,7 +22,9 @@ export const AppDataSource = new DataSource({
 let dataSource: DataSource;
 
 export const InitMysqlDb = async () => {
+    const logger = new Logger(MYSQL_SERVICE)
     if (!dataSource) {
+      logger.info({message: "Getting a new MySql connection ..."})
       dataSource = await AppDataSource.initialize();
     }
   };
