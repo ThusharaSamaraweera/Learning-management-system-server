@@ -1,0 +1,5 @@
+export const USER_SERVICE = "USER_SERVICE"
+export const MYSQL_SERVICE = "MYSQL_SERVICE"
+
+export const UNAUTHORIZED = "UNAUTHORIZED";
+export const FORBIDDEN = "FORBIDDEN";

@@ -17,7 +17,7 @@ const formatter = winston.format.combine(
   winston.format.splat(),
   winston.format.printf((info) => {
     const { timestamp, level, message, ...meta } = info;
-    return `${timestamp} [${level}]: [${meta[0]}] ${message}`;
+    return `${timestamp} [${level}]: [${meta[0]}] ${JSON.stringify(message)}`;
   })
 );
 
@@ -59,6 +59,6 @@ export class Logger {
 
 export interface LogPayload {
   serviceName?: string;
-  message?: string;
+  message?: any;
   meta?: string
 }

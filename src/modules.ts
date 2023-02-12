@@ -1,19 +1,10 @@
-export enum ROLE {
-  ADMIN = "ADMIN",
-  USER = "USER",
-}
+import { USER_ROLES } from "./constants/constants";
 
-export enum STATUS {
-    ACTIVE='ACTIVE',
-    INACTIVE='INACTIVE'
-}
-
-export interface NewUser{
+export interface NewUser {
   firstName: string;
   lastName: string;
   contactNumber: string;
-  email:string;
+  email: string;
   password: string;
-  status: STATUS;
-  role: ROLE
+  role: USER_ROLES;
 }

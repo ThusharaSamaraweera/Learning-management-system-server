@@ -1,5 +1,9 @@
-export const USER_SERVICE = "USER_SERVICE"
-export const MYSQL_SERVICE = "MYSQL_SERVICE"
+export enum USER_ROLES {
+  USER = "USER",
+  ADMIN = "ADMIN",
+}
 
-export const UNAUTHORIZED = "UNAUTHORIZED";
-export const FORBIDDEN = "FORBIDDEN";
+export enum USER_STATUS {
+  ACTIVE = "ACTIVE",
+  ACHIEVED = "ACHIEVED",
+}

@@ -1,8 +1,13 @@
-import { Router } from 'express';
-import userController from '../controllers/userController';
+import { Router } from "express";
+import userController from "../controllers/userController";
+import userValidator from "../validators/userValidator";
 
-const routes: Router = Router()
+const routes: Router = Router();
 
-routes.post('/signup', userController.createUser)
+routes.post(
+  "/signup",
+  userValidator.validateCreateUser,
+  userController.createUser
+);
 
-export default routes
+export default routes;
