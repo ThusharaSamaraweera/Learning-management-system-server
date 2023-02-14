@@ -1,15 +1,15 @@
 export class BaseError extends Error {
-  name: string;
+  message: string;
   httpCode: number;
   isOperational: boolean;
   description: string;
 
-  constructor(name: string, httpCode: number, description: string, isOperational = true) {
-    super(description);
+  constructor(message: string, httpCode: number, description: string, isOperational = true) {
+    super(message);
 
     Object.setPrototypeOf(this, new.target.prototype);
 
-    this.name = name;
+    this.message = message
     this.httpCode = httpCode;
     this.isOperational = isOperational;
     this.description = description;
@@ -19,37 +19,37 @@ export class BaseError extends Error {
 }
 
 export class BadRequestError extends BaseError {
-  constructor(name: string = "Bad request", description: any) {
-    super(name, 400, description, true);
+  constructor(message: string = "Bad request", description: any) {
+    super(message, 400, description, true);
   }
 }
 
 export class UnauthorizedError extends BaseError {
-  constructor(name: string = "Unauthorized", description: any) {
-    super(name, 401, description, true);
+  constructor(message: string = "Unauthorized", description: any) {
+    super(message, 401, description, true);
   }
 }
 
 export class ForbiddenError extends BaseError {
-  constructor(name: string = "Forbidden", description: any) {
-    super(name, 403, description, true);
+  constructor(message: string = "Forbidden", description: any) {
+    super(message, 403, description, true);
   }
 }
 
 export class NotFoundError extends BaseError {
-  constructor(name: string = "Not Found", description: any) {
-    super(name, 404, description, true);
+  constructor(message: string = "Not Found", description: any) {
+    super(message, 404, description, true);
   }
 }
 
 export class ServerError extends BaseError {
-  constructor(name: string = "Internal server Error", description: any) {
-    super(name, 500, description, true);
+  constructor(message: string = "Internal server Error", description: any) {
+    super(message, 500, description, true);
   }
 }
 
 export class DBError extends BaseError {
-  constructor(name: string = "Database Error", description: any) {
-    super(name, 500, description, true);
+  constructor(message: string = "Database Error", description: any) {
+    super(message, 500, description, true);
   }
 }

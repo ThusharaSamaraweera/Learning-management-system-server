@@ -5,7 +5,7 @@ class ErrorHandler {
   handleRequest(err: Error, req: Request, res: Response, next: NextFunction) {
     if (err instanceof BaseError) {
       const statusCode = err.httpCode || 500;
-      return res.status(statusCode).send({ status: "error", message: err.name, description: err.description });
+      return res.status(statusCode).send({ status: "error", message: err.message, description: err.description });
     }
     next();
   }

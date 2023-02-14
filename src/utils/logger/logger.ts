@@ -57,6 +57,8 @@ export class Logger {
   }
 }
 
+export const logger = new Logger('')
+
 export interface LogPayload {
   serviceName?: string;
   message?: any;
