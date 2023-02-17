@@ -8,3 +8,18 @@ export interface NewUser {
   password: string;
   role: USER_ROLES;
 }
+
+export interface User {
+  id: string;
+  firstName: string;
+  lastName: string;
+  contactNumber: string;
+  email: string;
+  password: string;
+  role: USER_ROLES;
+}
+
+export interface LoginDetails{
+  email: string;
+  password: string;
+}

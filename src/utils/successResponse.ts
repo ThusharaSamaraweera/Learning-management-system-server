@@ -2,10 +2,10 @@ import { FORBIDDEN, UNAUTHORIZED } from "../constants/logConstants";
 
 export const apiResponse = {
   _200: (body: { [key: string]: any }) => {
-    const data = { data: body };
+    const data = body;
     return {
       statusCode: 200,
-      body: JSON.stringify(data, null, 2),
+      data,
     };
   },
   //Created - send after POST or PUT
