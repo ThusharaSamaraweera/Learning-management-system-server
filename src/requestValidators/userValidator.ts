@@ -25,7 +25,7 @@ const validateSignup = async (req: Request, res: Response, next: NextFunction) =
     
   } catch (error) {
     if(error instanceof BadRequestError){
-      next(new BadRequestError(error.message, ''))
+      next(new BadRequestError(undefined, error.description))
     }
     next(error)
   }

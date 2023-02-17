@@ -5,8 +5,10 @@ import {
   BaseEntity,
   CreateDateColumn,
   UpdateDateColumn,
+  BeforeInsert,
 } from "typeorm";
 import { USER_ROLES, USER_STATUS } from "../../../constants/constants";
+import { hash } from "../../../services/authService";
 
 @Entity()
 export class User extends BaseEntity {

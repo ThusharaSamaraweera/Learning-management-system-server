@@ -1,6 +1,6 @@
 import Joi from "joi";
 import { BadRequestError } from "../utils/errorHandling/ErrorResponse";
-import { Logger } from "../utils/logger/logger";
+import { logger, Logger } from "../utils/logger/logger";
 
 export function validate(schema: any, data: any) {
   const options = {
@@ -12,9 +12,8 @@ export function validate(schema: any, data: any) {
   const { value, error } = schema.validate(data, options);
 
   if (error) {
-    const logger = new Logger("Invalid request format");
     logger.error({ message: error.details });
-    throw new BadRequestError("Invalid request format", error.details);
+    throw new BadRequestError(undefined, error.details);
   }
 
   return value;
