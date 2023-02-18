@@ -1,15 +1,15 @@
 import { NextFunction, Request, Response } from "express";
 import Joi from "joi";
-import { USER_ROLES, USER_STATUS } from "../constants/constants";
+import { USER_ROLES } from "../constants/constants";
 import { NewUser } from "../modules";
-import { checkEmailExists } from "../services/authService";
+import authService from "../services/authService";
 import { BadRequestError } from "../utils/errorHandling/ErrorResponse";
 import { validate } from "./validate";
 
 const validateSignup = async (req: Request, res: Response, next: NextFunction) => {
   const data: NewUser = req.body;
   try {
-    await checkEmailExists(data.email) 
+    await authService.checkEmailExists(data.email); 
   
     const schema = Joi.object({
       firstName: Joi.string().min(3).max(50).required(),
@@ -31,6 +31,26 @@ const validateSignup = async (req: Request, res: Response, next: NextFunction) =
   }
 };
 
+const validateLogin = async (req: Request, res: Response, next: NextFunction) => {
+  const data: NewUser = req.body;
+  try {
+    const schema = Joi.object({
+      email: Joi.string().email(),
+      password: Joi.string().min(8).max(48).required(),
+    });
+
+    req.body = validate(schema, data);
+    next();
+  } catch (error) {
+    if (error instanceof BadRequestError) {
+      next(new BadRequestError(undefined, error.description));
+    }
+    next(error);
+  }
+};
+
+
 export default {
   validateSignup,
+  validateLogin
 };

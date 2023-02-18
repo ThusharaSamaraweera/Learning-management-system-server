@@ -1,12 +1,12 @@
 import { AppDataSource, InitMysqlDb } from "../config/database/connection";
 import { UserSchema } from "../config/database/index";
 import { USER_STATUS } from "../constants/constants";
-import { LoginDetails, NewUser } from "../modules";
+import { IUser, LoginDetails, NewUser } from "../modules";
 import { BadRequestError, ServerError } from "../utils/errorHandling/ErrorResponse";
 import { logger, Logger } from "../utils/logger/logger";
 import CryptoJS from "crypto-js";
-import { User } from "../config/database/Entities/User";
 import Jwt from 'jsonwebtoken'
+import userService from "./userService";
 
 async function signup(logger: Logger, user: NewUser) {
   try {
@@ -27,7 +27,7 @@ async function signup(logger: Logger, user: NewUser) {
 async function login(logger: Logger, loginDetails: LoginDetails) {
   try {
     await InitMysqlDb();
-    const user = await getUserByEmail(logger, loginDetails?.email)
+    const user = await userService.getUserByEmail(logger, loginDetails?.email);
     if(!user) throw new BadRequestError('There is no account for this email', '')
 
     const enteredPwd = hash(loginDetails.password)
@@ -37,6 +37,9 @@ async function login(logger: Logger, loginDetails: LoginDetails) {
       email: user.email,
       role: user.role
     }
+
+    //@ts-ignore
+    delete user?.password!
     const token = Jwt.sign(payload, process.env.ENCRYPTION_SALT!, {expiresIn: 60*60});
     return {user, token}
   } catch (error) {
@@ -45,7 +48,7 @@ async function login(logger: Logger, loginDetails: LoginDetails) {
   }
 }
 
-export async function checkEmailExists(email: string) {
+async function checkEmailExists(email: string) {
   try {
     await InitMysqlDb();
     logger.info({ message: `Validating ${email} already exists or not` });
@@ -67,36 +70,13 @@ export async function checkEmailExists(email: string) {
   }
 }
 
-export const hash = (item: string) => {
+const hash = (item: string) => {
   return CryptoJS.SHA256(item).toString(CryptoJS.enc.Hex);
 };
 
-export const getUserByEmail = async (logger: Logger, email: string) => {
-  logger.info({ message: `Getting user by ${email}` });
-
-  try {
-    const userRepo = AppDataSource.getRepository(UserSchema);
-    const user: User | null = await userRepo.findOne({
-      where: {
-        email: email,
-      },
-      select: {
-        id: true,
-        firstName: true,
-        lastName: true,
-        email: true,
-        contactNumber: true,
-        status: true,
-        password: true,
-      },
-    });
-    return user
-  } catch (error) {
-    throw new ServerError("Get user by email failed", error.message);
-  }
-};
 
 export default {
   signup,
   login,
+  checkEmailExists
 };

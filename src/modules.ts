@@ -9,13 +9,13 @@ export interface NewUser {
   role: USER_ROLES;
 }
 
-export interface User {
+export interface IUser {
   id: string;
   firstName: string;
   lastName: string;
   contactNumber: string;
   email: string;
-  password: string;
+  password: string | null;
   role: USER_ROLES;
 }
 

@@ -5,6 +5,6 @@ import authValidator from "../requestValidators/authValidator";
 const routes: Router = Router();
 
 routes.post("/signup", authValidator.validateSignup, authController.signup);
-routes.post("/login", authController.login);
+routes.post("/login", authValidator.validateLogin, authController.login);
 
 export default routes;
