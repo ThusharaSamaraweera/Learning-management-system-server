@@ -1,7 +1,7 @@
 import { AppDataSource, InitMysqlDb } from "../config/database/connection";
 import { UserSchema } from "../config/database/index";
 import { USER_STATUS } from "../constants/constants";
-import { IUser, LoginDetails, NewUser } from "../modules";
+import { IUser, jwtPayload, LoginDetails, NewUser } from "../modules";
 import { BadRequestError, ServerError } from "../utils/errorHandling/ErrorResponse";
 import { logger, Logger } from "../utils/logger/logger";
 import CryptoJS from "crypto-js";
@@ -33,14 +33,15 @@ async function login(logger: Logger, loginDetails: LoginDetails) {
     const enteredPwd = hash(loginDetails.password)
     if(user?.password !== enteredPwd) throw new BadRequestError("Login creadintials invalid",'');
 
-    const payload = {
+    const payload: jwtPayload = {
+      id: user.id,
       email: user.email,
-      role: user.role
-    }
+      role: user.role,
+    };
 
+    const token = Jwt.sign(payload, process.env.ENCRYPTION_SALT!, {expiresIn: 60*60, algorithm: 'HS512'});
     //@ts-ignore
     delete user?.password!
-    const token = Jwt.sign(payload, process.env.ENCRYPTION_SALT!, {expiresIn: 60*60});
     return {user, token}
   } catch (error) {
     if(error instanceof BadRequestError) throw new BadRequestError(error.name, '')

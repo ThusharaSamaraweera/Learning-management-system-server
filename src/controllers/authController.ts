@@ -12,9 +12,9 @@ async function signup(req: Request, res: Response, next: NextFunction) {
     logger.info({ message: "Calling signup service" });
     await authService.signup(logger, user);
     return res.json(apiResponse._201());
-  } catch (err) {
-    logger.error(err);
-    next(err);
+  } catch (error) {
+    logger.error({ message: error });
+    next(error);
   }
 }
 
@@ -27,7 +27,7 @@ async function login(req: Request, res: Response, next: NextFunction) {
     const {user, token} = await authService.login(logger, loginDetails)
     return res.json(apiResponse._200({user, token}))
   } catch (error) {
-    logger.error(error)
+    logger.error({message: error});
     next(error)
   }
 }

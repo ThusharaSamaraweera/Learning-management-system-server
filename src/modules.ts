@@ -10,7 +10,7 @@ export interface NewUser {
 }
 
 export interface IUser {
-  id: string;
+  id: number;
   firstName: string;
   lastName: string;
   contactNumber: string;
@@ -22,4 +22,12 @@ export interface IUser {
 export interface LoginDetails{
   email: string;
   password: string;
+}
+
+export interface jwtPayload {
+  id: number;
+  email: string;
+  role: USER_ROLES;
+  iat?: number;
+  exp?:number
 }

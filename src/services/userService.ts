@@ -4,14 +4,14 @@ import { IUser } from "../modules";
 import { ServerError } from "../utils/errorHandling/ErrorResponse";
 import { Logger } from "../utils/logger/logger";
 
-const getUserByEmail = async (logger: Logger, email: string) => {
+const getUserByEmail = async (logger: Logger, email: string, id?: number) => {
   logger.info({ message: `Getting user by ${email}` });
-
   try {
     const userRepo = AppDataSource.getRepository(UserSchema);
     const user = await userRepo.findOne({
       where: {
         email: email,
+        id: id,
       },
       select: {
         id: true,
@@ -21,6 +21,7 @@ const getUserByEmail = async (logger: Logger, email: string) => {
         contactNumber: true,
         status: true,
         password: true,
+        role: true,
       },
     });
 
@@ -32,7 +33,7 @@ const getUserByEmail = async (logger: Logger, email: string) => {
 
 const getUsers = async (logger: Logger) => {
   logger.info({ message: `Getting users` });
-    await InitMysqlDb();
+  await InitMysqlDb();
 
   try {
     const userRepo = AppDataSource.getRepository(UserSchema);
@@ -54,6 +55,6 @@ const getUsers = async (logger: Logger) => {
 };
 
 export default {
-    getUserByEmail,
-    getUsers
-}
+  getUserByEmail,
+  getUsers,
+};
