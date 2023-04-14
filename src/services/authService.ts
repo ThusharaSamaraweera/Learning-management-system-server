@@ -1,12 +1,12 @@
-import { AppDataSource, InitMysqlDb } from "../config/database/connection";
-import { UserSchema } from "../config/database/index";
 import { USER_STATUS } from "../constants/constants";
 import { IUser, jwtPayload, LoginDetails, NewUser } from "../modules";
-import { BadRequestError, ServerError } from "../utils/errorHandling/ErrorResponse";
+import { BadRequestError, ServerError, UnauthorizedError } from "../utils/errorHandling/ErrorResponse";
 import { logger, Logger } from "../utils/logger/logger";
 import CryptoJS from "crypto-js";
 import Jwt from 'jsonwebtoken'
 import userService from "./userService";
+import { AppDataSource, InitMysqlDb } from "../data/database/mysql/connection";
+import { UserSchema } from "../data/database/mysql";
 
 async function signup(logger: Logger, user: NewUser) {
   try {
@@ -31,7 +31,7 @@ async function login(logger: Logger, loginDetails: LoginDetails) {
     if(!user) throw new BadRequestError('There is no account for this email', '')
 
     const enteredPwd = hash(loginDetails.password)
-    if(user?.password !== enteredPwd) throw new BadRequestError("Login creadintials invalid",'');
+    if(user?.password !== enteredPwd) throw new UnauthorizedError("Login creadintials invalid",'');
 
     const payload: jwtPayload = {
       id: user.id,
@@ -44,7 +44,8 @@ async function login(logger: Logger, loginDetails: LoginDetails) {
     delete user?.password!
     return {user, token}
   } catch (error) {
-    if(error instanceof BadRequestError) throw new BadRequestError(error.name, '')
+    if (error instanceof BadRequestError) throw new BadRequestError(error.name, "");
+    if (error instanceof UnauthorizedError) throw new UnauthorizedError(error.name, "");
     throw new ServerError("Login failed", error.message);
   }
 }

@@ -1,9 +1,9 @@
 import mysql from "mysql2";
 require("dotenv").config();
 import { DataSource } from "typeorm";
-import { MYSQL_SERVICE } from "../../constants/logConstants";
-import { Logger } from "../../utils/logger/logger";
 import { UserSchema } from "./index";
+import { MYSQL_SERVICE } from "../../../constants/logConstants";
+import { Logger } from "../../../utils/logger/logger";
 
 export const AppDataSource = new DataSource({
   type: "mysql",

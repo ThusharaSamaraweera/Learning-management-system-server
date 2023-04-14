@@ -6,7 +6,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { USER_ROLES, USER_STATUS } from "../../../constants/constants";
+import { USER_ROLES, USER_STATUS } from "../../../../constants/constants";
 
 @Entity()
 export class User extends BaseEntity {

@@ -1,5 +1,5 @@
-import { UserSchema } from "../config/database";
-import { AppDataSource, InitMysqlDb } from "../config/database/connection";
+import { UserSchema } from "../data/database/mysql";
+import { AppDataSource, InitMysqlDb } from "../data/database/mysql/connection";
 import { IUser } from "../modules";
 import { ServerError } from "../utils/errorHandling/ErrorResponse";
 import { Logger } from "../utils/logger/logger";
