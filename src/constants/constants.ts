@@ -7,3 +7,8 @@ export enum USER_STATUS {
   ACTIVE = "ACTIVE",
   ACHIEVED = "ACHIEVED",
 }
+
+export enum USER_TITLE {
+  STUDENT = "STUDENT",
+  LECTURER = "LECTURER",
+}

@@ -1,11 +1,4 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  BaseEntity,
-  CreateDateColumn,
-  UpdateDateColumn,
-} from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, CreateDateColumn, UpdateDateColumn } from "typeorm";
 import { USER_ROLES, USER_STATUS, USER_TITLE } from "../../../../constants/constants";
 
 @Entity()
@@ -17,19 +10,13 @@ export class user extends BaseEntity {
     type: "varchar",
     length: 100,
   })
-  firstName!: string;
+  name!: string;
 
   @Column({
     type: "varchar",
-    length: 100,
+    length: 500,
   })
-  lastName!: string;
-
-  @Column({
-    type: "varchar",
-    length: 100,
-  })
-  contactNumber!: string;
+  description!: string;
 
   @Column({
     type: "varchar",
