@@ -27,7 +27,7 @@ async function login(req: Request, res: Response, next: NextFunction) {
     const {user, token} = await authService.login(logger, loginDetails)
     return res.json(apiResponse._200({user, token}))
   } catch (error) {
-    logger.error({message: error});
+    logger.error({ message: error });
     next(error)
   }
 }

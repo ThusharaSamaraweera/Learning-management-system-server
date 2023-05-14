@@ -5,12 +5,11 @@ import { logger, Logger } from "../utils/logger/logger";
 import CryptoJS from "crypto-js";
 import Jwt from 'jsonwebtoken'
 import userService from "./userService";
-import { AppDataSource, InitMysqlDb } from "../data/database/mysql/connection";
+import { AppDataSource } from "../data/database/mysql/connection";
 import { UserSchema } from "../data/database/mysql";
 
 async function signup(logger: Logger, user: NewUser) {
   try {
-    await InitMysqlDb();
     logger.info({
       message: `Inserting new user: first name-${user.firstName} last name-${user.lastName} email-${user.email}`,
     });
@@ -26,7 +25,6 @@ async function signup(logger: Logger, user: NewUser) {
 
 async function login(logger: Logger, loginDetails: LoginDetails) {
   try {
-    await InitMysqlDb();
     const user = await userService.getUserByEmail(logger, loginDetails?.email);
     if(!user) throw new BadRequestError('There is no account for this email', '')
 
@@ -52,7 +50,6 @@ async function login(logger: Logger, loginDetails: LoginDetails) {
 
 async function checkEmailExists(email: string) {
   try {
-    await InitMysqlDb();
     logger.info({ message: `Validating ${email} already exists or not` });
     const userRepo = AppDataSource.getRepository(UserSchema);
     const existingEamilUserId = await userRepo.findOne({

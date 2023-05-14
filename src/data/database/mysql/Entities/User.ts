@@ -9,7 +9,7 @@ import {
 import { USER_ROLES, USER_STATUS } from "../../../../constants/constants";
 
 @Entity()
-export class User extends BaseEntity {
+export class user extends BaseEntity {
   @PrimaryGeneratedColumn("increment")
   id!: number;
 

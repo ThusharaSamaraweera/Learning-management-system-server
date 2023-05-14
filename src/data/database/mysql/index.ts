@@ -1,4 +1,4 @@
 import { InitMysqlDb } from "./connection";
-import { User } from "./Entities/User";
+import { user } from "./Entities/User";
 
-export { InitMysqlDb as MySQLDbCon, User as UserSchema };
+export { InitMysqlDb as MySQLDbCon, user as UserSchema };

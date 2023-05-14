@@ -26,7 +26,7 @@ export const authTokenMiddleware = async (req: Request, res: Response, next: Nex
     const errorNames = ["JsonWebTokenError", "NotBeforeError", "TokenExpiredError"];
     if (error.name && errorNames.includes(error.name))
       return next(new UnauthorizedError("Invalid or expired token.", ""));
-    logger.error({ serviceName: AUTH_SERVICE, message: error.message });
+    logger.error({ serviceName: AUTH_SERVICE, message: error });
     next(error);
   } 
 };

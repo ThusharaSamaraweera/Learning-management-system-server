@@ -1,9 +1,9 @@
 import mysql from "mysql2";
 require("dotenv").config();
 import { DataSource } from "typeorm";
-import { UserSchema } from "./index";
 import { MYSQL_SERVICE } from "../../../constants/logConstants";
 import { Logger } from "../../../utils/logger/logger";
+import { user } from "./Entities/User";
 
 export const AppDataSource = new DataSource({
   type: "mysql",
@@ -14,15 +14,21 @@ export const AppDataSource = new DataSource({
   port: parseInt(process.env.DB_PORT!),
   synchronize: false,
   logging: true,
-  entities: [UserSchema],
+  entities: [user],
+  // migrations: ["src/data/database/mysql/migration/**/*.ts"],
 });
 
 let dataSource: DataSource;
 
 export const InitMysqlDb = async () => {
   const logger = new Logger(MYSQL_SERVICE);
-  if (!dataSource) {
-    logger.info({ message: "Getting a new MySql connection ..." });
-    dataSource = await AppDataSource.initialize();
+  try {
+    if (!dataSource) {
+      logger.info({ message: "Getting a new MySql connection ..." });
+      dataSource = await AppDataSource.initialize();
+    }
+    
+  } catch (error) {
+    logger.error({message: error.message})
   }
 };

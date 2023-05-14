@@ -1,5 +1,5 @@
 import { UserSchema } from "../data/database/mysql";
-import { AppDataSource, InitMysqlDb } from "../data/database/mysql/connection";
+import { AppDataSource } from "../data/database/mysql/connection";
 import { IUser } from "../modules";
 import { ServerError } from "../utils/errorHandling/ErrorResponse";
 import { Logger } from "../utils/logger/logger";
@@ -27,13 +27,13 @@ const getUserByEmail = async (logger: Logger, email: string, id?: number) => {
 
     return user as unknown as IUser;
   } catch (error) {
+    logger.error({message: error.message})
     throw new ServerError("Get user by email failed", error.message);
   }
 };
 
 const getUsers = async (logger: Logger) => {
   logger.info({ message: `Getting users` });
-  await InitMysqlDb();
 
   try {
     const userRepo = AppDataSource.getRepository(UserSchema);
@@ -50,6 +50,7 @@ const getUsers = async (logger: Logger) => {
 
     return users as unknown as IUser[];
   } catch (error) {
+    logger.error({ message: error.message });
     throw new ServerError("Get users failed", error.message);
   }
 };
