@@ -6,7 +6,8 @@
   "scripts": {
     "start": "nodemon src/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "typeorm": "typeorm-ts-node-esm -d ./src/data/database/mysql/connection.ts"
+    "typeorm": "typeorm-ts-node-esm -d ./src/data/database/mysql/connection.ts",
+    "db:migrate": "typeorm-ts-node-esm -d ./src/data/database/mysql/connection.ts migration:generate -n"
   },
   "author": "",
   "license": "ISC",
