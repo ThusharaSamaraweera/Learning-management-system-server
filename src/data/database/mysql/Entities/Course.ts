@@ -1,58 +1,44 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, CreateDateColumn, UpdateDateColumn } from "typeorm";
-import { USER_ROLES, USER_STATUS, USER_TITLE } from "../../../../constants/constants";
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, UpdateDateColumn, ManyToOne } from "typeorm";
+import { ACADEMIC_YEARS as ACADEMIC_YEAR, COURSE_LEVELS as COURSE_LEVEL, FACULTY } from "../../../../modules";
+import { Department } from "./Department";
 
 @Entity()
-export class user extends BaseEntity {
-  @PrimaryGeneratedColumn("increment")
-  id!: number;
+export class course extends BaseEntity {
+  @PrimaryGeneratedColumn("uuid")
+  id!: string;
 
   @Column({
     type: "varchar",
-    length: 100,
+    length: 50,
   })
   name!: string;
 
   @Column({
     type: "varchar",
-    length: 500,
+    length: 1000,
   })
   description!: string;
 
   @Column({
     type: "varchar",
-    length: 100,
-  })
-  email!: string;
-
-  @Column({
-    type: "varchar",
-    length: 100,
-  })
-  password!: string;
-
-  @Column({
-    type: "varchar",
     length: 10,
   })
-  status!: USER_STATUS;
+  level!: COURSE_LEVEL;
 
   @Column({
     type: "varchar",
-    length: 10,
+    length: 100,
   })
-  role!: USER_ROLES;
+  academicYear!: ACADEMIC_YEAR;
 
   @Column({
     type: "varchar",
-    length: 40,
+    length: 100,
   })
-  title!: USER_TITLE;
+  faculty!: FACULTY;
 
-  @CreateDateColumn({
-    type: "timestamp",
-    default: () => "CURRENT_TIMESTAMP(6)",
-  })
-  createdAt!: Date;
+  @ManyToOne(() => Department, (department) => department.id)
+  department!: Department;
 
   @UpdateDateColumn({
     type: "timestamp",

@@ -5,6 +5,7 @@ import { MYSQL_SERVICE } from "../../../constants/logConstants";
 import { Logger } from "../../../utils/logger/logger";
 import { user } from "./Entities/User";
 import { Department } from "./Entities/Department";
+import { course } from "./Entities/Course";
 
 export const AppDataSource = new DataSource({
   type: "mysql",
@@ -15,7 +16,7 @@ export const AppDataSource = new DataSource({
   port: parseInt(process.env.DB_PORT!),
   synchronize: false,
   logging: true,
-  entities: [user, Department],
+  entities: [user, Department, course],
   migrations: ["src/data/database/mysql/migration/**/*.ts"],
 });
 
