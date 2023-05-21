@@ -10,7 +10,6 @@ app.use(cors());
 express.urlencoded({ extended: true });
 app.use(express.json());
 
-app.use(authTokenMiddleware);
 InitMysqlDb();
 
 app.get("/", (req, res) => res.send("API Running"));

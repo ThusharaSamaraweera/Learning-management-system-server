@@ -7,13 +7,15 @@ import userService from '../services/userService'
 import { jwtPayload } from "../modules";
 
 export const authTokenMiddleware = async (req: Request, res: Response, next: NextFunction) => {
-  const whiteListedPaths = ["login", "signup"];
+  // const whiteListedPaths = ["login", "signup"];
   const authorizationToken = req.headers.authorization?.split(" ")[1];
 
   try {
-    if (whiteListedPaths.some((path) => req.originalUrl.includes(path))) {
-      next();
-    } else if (authorizationToken) {
+    // if (whiteListedPaths.some((path) => req.originalUrl.includes(path))) {
+    //   next();
+    // }
+    
+    if (authorizationToken) {
       const payload = Jwt.verify(authorizationToken, process.env.ENCRYPTION_SALT!) as jwtPayload;
       const user = await userService.getUserByEmail(new Logger(AUTH_SERVICE), payload?.email, payload?.id)
       req.body.user = user;
