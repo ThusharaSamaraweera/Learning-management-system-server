@@ -32,9 +32,11 @@ async function login(logger: Logger, loginDetails: LoginDetails) {
     if(user?.password !== enteredPwd) throw new UnauthorizedError("Login creadintials invalid",'');
 
     const payload: jwtPayload = {
-      id: user.id,
-      email: user.email,
-      role: user.role,
+      id: user?.id,
+      email: user?.email,
+      role: user?.role,
+      status: user?.status,
+      userTitle: user?.title,
     };
 
     const token = Jwt.sign(payload, process.env.ENCRYPTION_SALT!, {expiresIn: 60*60, algorithm: 'HS512'});

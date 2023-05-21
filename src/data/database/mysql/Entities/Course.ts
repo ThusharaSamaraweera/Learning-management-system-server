@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, UpdateDateColumn, ManyToOne } from "typeorm";
-import { ACADEMIC_YEARS as ACADEMIC_YEAR, COURSE_LEVELS as COURSE_LEVEL, FACULTY } from "../../../../modules";
+import { ACADEMIC_YEAR, COURSE_LEVEL, FACULTY } from "../../../../modules";
 import { Department } from "./Department";
 
 @Entity()

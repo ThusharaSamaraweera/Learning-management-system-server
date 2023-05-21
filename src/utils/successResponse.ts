@@ -9,8 +9,10 @@ export const apiResponse = {
     };
   },
   //Created - send after POST or PUT
-  _201: () => {
+  _201: (body: { [key: string]: any }) => {
+    const data = body;
     return {
+      data,
       statusCode: 201,
     };
   },

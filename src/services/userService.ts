@@ -22,6 +22,7 @@ const getUserByEmail = async (logger: Logger, email: string, id?: number) => {
         status: true,
         password: true,
         role: true,
+        title: true,
       },
     });
 

@@ -42,14 +42,14 @@ export interface ICourse {
   
 }
 
-export enum COURSE_LEVELS {
+export enum COURSE_LEVEL {
   LEVEL1 = "LEVEL1",
   LEVEL2 = "LEVEL2",
   LEVEL3 = "LEVEL3",
   LEVEL4 = "LEVEL4",
 }
 
-export enum ACADEMIC_YEARS {
+export enum ACADEMIC_YEAR {
   ACD_YR_2022_2023 = "2022_2023",
   ACD_YR_2023_2024 = "2023_2024",
   ACD_YR_2024_2025 = "2024_2025",

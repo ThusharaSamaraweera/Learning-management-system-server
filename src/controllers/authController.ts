@@ -11,7 +11,7 @@ async function signup(req: Request, res: Response, next: NextFunction) {
     const user: NewUser = req.body;
     logger.info({ message: "Calling signup service" });
     await authService.signup(logger, user);
-    return res.json(apiResponse._201());
+    return res.json(apiResponse._201({user}));
   } catch (error) {
     logger.error({ message: error });
     next(error);
