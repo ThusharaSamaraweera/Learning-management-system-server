@@ -1,18 +1,19 @@
 import { NextFunction, Request, Response } from "express";
 import Joi from "joi";
-import { ACADEMIC_YEAR, COURSE_LEVEL, FACULTY, NewUser } from "../modules";
+import { ACADEMIC_YEAR, COURSE_LEVEL, FACULTY, INewCourse, NewUser } from "../modules";
 import { BadRequestError } from "../utils/errorHandling/ErrorResponse";
 import { validate } from "./validate";
 
 const validateCreateCourse = async (req: Request, res: Response, next: NextFunction) => {
-  const data: NewUser = req.body;
+  const data: INewCourse = req.body;
+
   try {
     const schema = Joi.object({
       name: Joi.string().min(3).max(50).required(),
-      description: Joi.string().min(3).max(1000).required(),
-      level: Joi.string().valid(COURSE_LEVEL).required(),
-      academicYear: Joi.string().valid(ACADEMIC_YEAR).required(),
-      faculty: Joi.string().valid(FACULTY).required(),
+      description: Joi.string().max(1000),
+      level: Joi.string().valid(...Object.values(COURSE_LEVEL)).required(),
+      academicYear: Joi.string().valid(...Object.keys(ACADEMIC_YEAR)).required(),
+      faculty: Joi.string().valid(...Object.keys(FACULTY)).required(),
       department: Joi.number().required(),
     });
 

@@ -3,8 +3,9 @@ import { AUTH_SERVICE } from "../constants/logConstants";
 import { UnauthorizedError } from "../utils/errorHandling/ErrorResponse";
 import { Logger, logger } from "../utils/logger/logger";
 import Jwt from "jsonwebtoken";
-import userService from '../services/userService'
+import userService from "../services/userService";
 import { jwtPayload } from "../modules";
+import authService from "../services/authService";
 
 export const authTokenMiddleware = async (req: Request, res: Response, next: NextFunction) => {
   // const whiteListedPaths = ["login", "signup"];
@@ -14,10 +15,10 @@ export const authTokenMiddleware = async (req: Request, res: Response, next: Nex
     // if (whiteListedPaths.some((path) => req.originalUrl.includes(path))) {
     //   next();
     // }
-    
+
     if (authorizationToken) {
-      const payload = Jwt.verify(authorizationToken, process.env.ENCRYPTION_SALT!) as jwtPayload;
-      const user = await userService.getUserByEmail(new Logger(AUTH_SERVICE), payload?.email, payload?.id)
+      const payload = authService.getPayloadByToken(new Logger(AUTH_SERVICE), authorizationToken);
+      const user = await userService.getUserByEmail(new Logger(AUTH_SERVICE), payload?.email, payload?.id);
       req.body.user = user;
       next();
     } else {
@@ -30,5 +31,5 @@ export const authTokenMiddleware = async (req: Request, res: Response, next: Nex
       return next(new UnauthorizedError("Invalid or expired token.", ""));
     logger.error({ serviceName: AUTH_SERVICE, message: error });
     next(error);
-  } 
+  }
 };
