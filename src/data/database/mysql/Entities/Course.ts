@@ -46,4 +46,10 @@ export class course extends BaseEntity {
     onUpdate: "CURRENT_TIMESTAMP(6)",
   })
   updatedAt!: Date;
+
+  @Column({
+    type: "varchar",
+    length: 50,
+  })
+  createdBy!: string;
 }
