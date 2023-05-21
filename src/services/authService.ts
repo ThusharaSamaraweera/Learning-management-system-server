@@ -3,7 +3,7 @@ import { IUser, jwtPayload, LoginDetails, NewUser } from "../modules";
 import { BadRequestError, ServerError, UnauthorizedError } from "../utils/errorHandling/ErrorResponse";
 import { logger, Logger } from "../utils/logger/logger";
 import CryptoJS from "crypto-js";
-import Jwt from 'jsonwebtoken'
+import Jwt from "jsonwebtoken";
 import userService from "./userService";
 import { AppDataSource } from "../data/database/mysql/connection";
 import { UserSchema } from "../data/database/mysql";
@@ -26,10 +26,10 @@ async function signup(logger: Logger, user: NewUser) {
 async function login(logger: Logger, loginDetails: LoginDetails) {
   try {
     const user = await userService.getUserByEmail(logger, loginDetails?.email);
-    if(!user) throw new BadRequestError('There is no account for this email', '')
+    if (!user) throw new BadRequestError("There is no account for this email", "");
 
-    const enteredPwd = hash(loginDetails.password)
-    if(user?.password !== enteredPwd) throw new UnauthorizedError("Login creadintials invalid",'');
+    const enteredPwd = hash(loginDetails.password);
+    if (user?.password !== enteredPwd) throw new UnauthorizedError("Login creadintials invalid", "");
 
     const payload: jwtPayload = {
       id: user?.id,
@@ -39,10 +39,10 @@ async function login(logger: Logger, loginDetails: LoginDetails) {
       userTitle: user?.title,
     };
 
-    const token = Jwt.sign(payload, process.env.ENCRYPTION_SALT!, {expiresIn: 60*60, algorithm: 'HS512'});
+    const token = Jwt.sign(payload, process.env.ENCRYPTION_SALT!, { expiresIn: 60 * 60, algorithm: "HS512" });
     //@ts-ignore
-    delete user?.password!
-    return {user, token}
+    delete user?.password!;
+    return { user, token };
   } catch (error) {
     if (error instanceof BadRequestError) throw new BadRequestError(error.name, "");
     if (error instanceof UnauthorizedError) throw new UnauthorizedError(error.name, "");
@@ -75,9 +75,15 @@ const hash = (item: string) => {
   return CryptoJS.SHA256(item).toString(CryptoJS.enc.Hex);
 };
 
+const getPayloadByToken = (logger: Logger, token: string) => {
+  const payload = Jwt.verify(token, process.env.ENCRYPTION_SALT!) as jwtPayload;
+  logger.info({message: ''})
+  return payload;
+};
 
 export default {
   signup,
   login,
-  checkEmailExists
+  checkEmailExists,
+  getPayloadByToken,
 };

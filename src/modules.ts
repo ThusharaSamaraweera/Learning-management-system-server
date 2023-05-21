@@ -38,8 +38,13 @@ export interface jwtPayload {
 
 export interface ICourse {
   id?: string;
- 
-  
+  name: string;
+  description: string;
+  level: COURSE_LEVEL;
+  academicYear: ACADEMIC_YEAR;
+  faculty: FACULTY;
+  department: Department;
+  updatedAt?: Date;
 }
 
 export enum COURSE_LEVEL {
@@ -50,9 +55,9 @@ export enum COURSE_LEVEL {
 }
 
 export enum ACADEMIC_YEAR {
-  ACD_YR_2022_2023 = "2022_2023",
-  ACD_YR_2023_2024 = "2023_2024",
-  ACD_YR_2024_2025 = "2024_2025",
+  YR_2022_2023 = "2022_2023",
+  YR_2023_2024 = "2023_2024",
+  YR_2024_2025 = "2024_2025",
 }
 
 export enum COURSE_SEMESTERS {
@@ -67,4 +72,19 @@ export enum FACULTY {
   MEDICINE = "MEDICINE",
   SCIENCE = "SCIENCE",
   SOCIAL_SCIENCES = "SOCIAL_SCIENCES",
+}
+
+export interface Department{
+  id: number;
+  name: string;
+  faculty: FACULTY;
+}
+
+export interface INewCourse {
+  name: string;
+  description: string;
+  level: COURSE_LEVEL;
+  academicYear: ACADEMIC_YEAR;
+  faculty: FACULTY;
+  department: number;
 }
