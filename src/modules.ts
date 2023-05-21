@@ -10,7 +10,7 @@ export interface NewUser {
 }
 
 export interface IUser {
-  id: number;
+  id: string;
   firstName: string;
   lastName: string;
   contactNumber: string;
@@ -27,7 +27,7 @@ export interface LoginDetails{
 }
 
 export interface jwtPayload {
-  id: number;
+  id: string;
   email: string;
   role: USER_ROLES;
   status: USER_STATUS;

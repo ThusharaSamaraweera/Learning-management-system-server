@@ -10,8 +10,8 @@ import { USER_ROLES, USER_STATUS, USER_TITLE } from "../../../../constants/const
 
 @Entity()
 export class user extends BaseEntity {
-  @PrimaryGeneratedColumn("increment")
-  id!: number;
+  @PrimaryGeneratedColumn("uuid")
+  id!: string;
 
   @Column({
     type: "varchar",

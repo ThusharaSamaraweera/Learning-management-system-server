@@ -4,7 +4,7 @@ import { IUser } from "../modules";
 import { ServerError } from "../utils/errorHandling/ErrorResponse";
 import { Logger } from "../utils/logger/logger";
 
-const getUserByEmail = async (logger: Logger, email: string, id?: number) => {
+const getUserByEmail = async (logger: Logger, email: string, id?: string) => {
   logger.info({ message: `Getting user by ${email}` });
   try {
     const userRepo = AppDataSource.getRepository(UserSchema);
