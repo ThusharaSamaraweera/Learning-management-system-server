@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 import Joi from "joi";
-import { ACADEMIC_YEAR, COURSE_LEVEL, FACULTY, INewCourse, NewUser } from "../modules";
+import { ACADEMIC_YEAR, COURSE_LEVEL, FACULTY, INewCourse } from "../modules";
 import { BadRequestError } from "../utils/errorHandling/ErrorResponse";
 import { validate } from "./validate";
 
-const validateCreateCourse = async (req: Request, res: Response, next: NextFunction) => {
+const validateCreateCourse = (req: Request, res: Response, next: NextFunction) => {
   const data: INewCourse = req.body;
 
   try {

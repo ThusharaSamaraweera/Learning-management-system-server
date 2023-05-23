@@ -1,7 +1,7 @@
-import { UserSchema } from "../data/database/mysql";
+import { CourseSchema, UserSchema } from "../data/database/mysql";
 import { AppDataSource } from "../data/database/mysql/connection";
 import { IUser } from "../modules";
-import { ServerError } from "../utils/errorHandling/ErrorResponse";
+import { BadRequestError, ServerError } from "../utils/errorHandling/ErrorResponse";
 import { Logger } from "../utils/logger/logger";
 
 const getUserByEmail = async (logger: Logger, email: string, id?: string) => {
@@ -23,7 +23,11 @@ const getUserByEmail = async (logger: Logger, email: string, id?: string) => {
         password: true,
         role: true,
         title: true,
+        courses: true,
       },
+      relations: {
+        courses: true,
+      }
     });
 
     return user as unknown as IUser;
@@ -56,7 +60,62 @@ const getUsers = async (logger: Logger) => {
   }
 };
 
+const checkCourseExists = async (logger: Logger, courseId: string) => {
+  logger.info({ message: `Checking if course exists` });
+  try {
+    const courseRepo = AppDataSource.getRepository(CourseSchema);
+    const course = await courseRepo.findOne({
+      where: {
+        id: courseId,
+      },
+    });
+    if(!course){
+      throw new BadRequestError(`Course with ${courseId} does not exist`, "");
+    }
+    return course;
+  } catch (error) {
+    if(error instanceof BadRequestError){
+      throw error;
+    }
+    logger.error({message: error.message})
+    throw new ServerError("Check course exists failed", error.message);
+  }
+}
+
+const enrollToCourse = async (logger: Logger, userId: string, courseId: string) => {
+  logger.info({ message: `Enrolling user to course` });
+  try {
+    const userRepo = AppDataSource.getRepository(UserSchema);
+    const user = await userRepo.findOne({
+      select: {
+        id: true,
+        courses: true,
+      },
+      where: {
+        id: userId,
+      },
+      relations: {
+        courses: true,
+      }
+    });
+    if(!user){
+      throw new BadRequestError(`User with ${userId} does not exist`, "");
+    }
+    const course = await checkCourseExists(logger, courseId);
+    user.courses.push(course);
+    await userRepo.save(user);
+    return user;
+  } catch (error) {
+    if(error instanceof BadRequestError){
+      throw error;
+    }
+    logger.error({message: error.message})
+    throw new ServerError("Enroll user to course failed", error.message);
+  }     
+}
 export default {
   getUserByEmail,
   getUsers,
+  enrollToCourse,
+  checkCourseExists
 };
