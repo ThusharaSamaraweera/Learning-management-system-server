@@ -5,8 +5,11 @@ import {
   BaseEntity,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToMany,
+  JoinTable,
 } from "typeorm";
 import { USER_ROLES, USER_STATUS, USER_TITLE } from "../../../../constants/constants";
+import { course } from "./Course";
 
 @Entity()
 export class user extends BaseEntity {
@@ -73,4 +76,8 @@ export class user extends BaseEntity {
     onUpdate: "CURRENT_TIMESTAMP(6)",
   })
   updatedAt!: Date;
+
+  @ManyToMany(() => course, (course) => course.id)
+  @JoinTable()
+  courses!: course[];
 }
