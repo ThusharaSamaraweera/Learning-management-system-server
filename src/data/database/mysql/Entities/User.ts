@@ -5,13 +5,16 @@ import {
   BaseEntity,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToMany,
+  JoinTable,
 } from "typeorm";
-import { USER_ROLES, USER_STATUS } from "../../../constants/constants";
+import { USER_ROLES, USER_STATUS, USER_TITLE } from "../../../../constants/constants";
+import { course } from "./Course";
 
 @Entity()
-export class User extends BaseEntity {
-  @PrimaryGeneratedColumn("increment")
-  id!: number;
+export class user extends BaseEntity {
+  @PrimaryGeneratedColumn("uuid")
+  id!: string;
 
   @Column({
     type: "varchar",
@@ -55,6 +58,12 @@ export class User extends BaseEntity {
   })
   role!: USER_ROLES;
 
+  @Column({
+    type: "varchar",
+    length: 40,
+  })
+  title!: USER_TITLE;
+
   @CreateDateColumn({
     type: "timestamp",
     default: () => "CURRENT_TIMESTAMP(6)",
@@ -67,4 +76,8 @@ export class User extends BaseEntity {
     onUpdate: "CURRENT_TIMESTAMP(6)",
   })
   updatedAt!: Date;
+
+  @ManyToMany(() => course, (course) => course.id)
+  @JoinTable()
+  courses!: course[];
 }

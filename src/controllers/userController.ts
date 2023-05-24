@@ -17,6 +17,20 @@ const getAllUsers = async (req: Request,res: Response , next: NextFunction) => {
     }
 }
 
+const enrollToCourse = async (req: Request,res: Response , next: NextFunction) => {
+    const logger = new Logger(USER_SERVICE)
+    const {userId, courseId } = req.params
+    try {
+        logger.info({message: `Calling PUT enrollToCourse with userId: ${userId} and courseId: ${courseId}`})
+        const user = await userService.enrollToCourse(logger, userId, courseId)
+        return res.json(apiResponse._201({user}))
+    } catch (error) {
+        logger.error(error)
+        next(error)
+    }
+}
+
 export default {
-    getAllUsers
+    getAllUsers,
+    enrollToCourse
 }
