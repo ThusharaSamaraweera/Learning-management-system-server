@@ -12,7 +12,7 @@ const createCourse = async (req: Request, res: Response, next: NextFunction) => 
   try {
     const newCourse: INewCourse = req.body;
     const userEmail = req.body?.user?.email;
-    logger.info({ message: "Calling createCourse" });
+    logger.info({ message: `Calling createCourse ${JSON.stringify(newCourse)}` });
     const result = await courseService.createCourse(logger, newCourse, userEmail);
     if( result?.department && result.newCourseId) {
       const addedCourse: ICourse = { ...newCourse, id: result?.newCourseId, department: result.department};
