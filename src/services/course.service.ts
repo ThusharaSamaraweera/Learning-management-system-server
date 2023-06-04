@@ -13,7 +13,7 @@ async function createCourse(logger: Logger, course: INewCourse, userEmail: strin
   const department = await departmentService.getDepartment(logger, course?.department);
 
   if (department) {
-    await courseRepo.insert({
+    const newCourse = await courseRepo.insert({
       name: course.name,
       description: course.description,
       level: course.level,
@@ -22,6 +22,10 @@ async function createCourse(logger: Logger, course: INewCourse, userEmail: strin
       department: department,
       createdBy: userEmail
     });
+
+    logger.info({ message: `Successfully inserted new course: name-${course.name}` });
+
+    return {newCourseId: newCourse.identifiers[0].id, department};
   }
 }
 
