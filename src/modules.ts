@@ -87,4 +87,27 @@ export interface INewCourse {
   academicYear: ACADEMIC_YEAR;
   faculty: FACULTY;
   department: number;
+  weekContent: IWeekContent;
+}
+
+export interface IWeekContent {
+  _id?: string;
+  courseId: string;
+  weekNumber: number;
+  type: WEEK_CONTENT_TYPE;
+  startingDate: Date;
+  title?: string;
+  description?: string;
+  content?: IContentOfWeek[];
+} 
+
+export enum WEEK_CONTENT_TYPE {
+  GENERAL = "GENERAL",
+}
+
+export interface IContentOfWeek {
+  id: string;
+  title?: string;
+  description?: string;
+  updatedAt: Date;
 }
